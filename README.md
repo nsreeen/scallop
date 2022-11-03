@@ -13,15 +13,15 @@ Features implemented:
 
 Sample:
 ```
-/home/nasreen/projects/Scallop>> mkdir hello
-/home/nasreen/projects/Scallop>> cd hello
-/home/nasreen/projects/Scallop/hello>> cd ..
-/home/nasreen/projects/Scallop>> echo hi && echo bye
+Scallop>> mkdir hello
+Scallop>> cd hello
+Scallop/hello>> cd ..
+/Scallop>> echo hi && echo bye
 hi
 bye
-/home/nasreen/projects/Scallop>> ls
+Scallop>> ls
 hello  README.md  scallop.py
-/home/nasreen/projects/Scallop>> ls | wc
+Scallop>> ls | wc
       3       3      27
 ```
 
