@@ -2,21 +2,21 @@ import os
 
 
 # deafult file descriptor values of standard in and standard out
-STDIN_FD_DEFAULT = 0
-STDOUT_FD_DEFAULT = 1
+STDIN_FILE_DESCRIPTOR_DEFAULT = 0
+STDOUT_FILE_DESCRIPTOR_DEFAULT = 1
 
 
 def execute_pipe(pipe_1_tokens, pipe_2_tokens):
         pipe_read, pipe_write = os.pipe()
 
         # pipe one writes to the pipe write fd rather than standard out
-        execute(pipe_1_tokens, fd_swap=(pipe_write, STDOUT_FD_DEFAULT))
+        execute(pipe_1_tokens, fd_swap=(pipe_write, STDOUT_FILE_DESCRIPTOR_DEFAULT))
 
         # we close the pipe write fd so that we can write to standard out again
         os.close(pipe_write)
 
         # pipe two reads from pipe read (to read the output of the last step)
-        execute(pipe_2_tokens, fd_swap=(pipe_read, STDIN_FD_DEFAULT))
+        execute(pipe_2_tokens, fd_swap=(pipe_read, STDIN_FILE_DESCRIPTOR_DEFAULT))
 
 
 def execute(command_tokens, fd_swap=None):
@@ -35,17 +35,18 @@ def execute(command_tokens, fd_swap=None):
 
 def main():
     while True:
-        userinput = input(f"{os.getcwd()}>> ")
+        current_directory = os.getcwd()
+        userinput = input(f"{current_directory}>> ")
         commands = userinput.split("&&")
         for command in commands:
             if "|" in command:
-                pipes = command.split("|")
-                tokenized_pipes = [pipe.split() for pipe in pipes]
-                execute_pipe(*tokenized_pipes)
+                pipe_segments = command.split("|")
+                tokenized_pipe_segments = [pipe.split() for pipe in pipe_segments]
+                execute_pipe(*tokenized_pipe_segments)
 
             else:
                 command_tokens = command.split()
-                if command_tokens[0] == "cd":
+                if command_tokens[0] == "cd": # we don't want to fork to execute cd
                     os.chdir(os.path.abspath(command_tokens[1]))
 
                 else:
