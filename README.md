@@ -16,7 +16,7 @@ Sample:
 Scallop>> mkdir hello
 Scallop>> cd hello
 Scallop/hello>> cd ..
-/Scallop>> echo hi && echo bye
+Scallop>> echo hi && echo bye
 hi
 bye
 Scallop>> ls
